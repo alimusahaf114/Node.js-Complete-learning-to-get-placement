@@ -29,11 +29,18 @@ function requestListner(req, res){
         })
         req.on('end' , ()=>{
             const fullBody = Buffer.concat(body).toString();
-            console.log(fullBody);
+            const params = new URLSearchParams(fullBody);
+            // const bodyObject = {}
+            // for(const [key,val] of params.entries()){
+            //     bodyObject[key] = val
+            // }
+            const bodyObject = Object.fromEntries(params)
+    
+            console.log(bodyObject);
             
 
+            fs.writeFileSync("Musahaf.txt" , JSON.stringify(bodyObject))
         })
-        fs.writeFileSync("user.txt" , "Hello Musahaf you are great")
         res.statusCode = 302;
         res.setHeader('location' , '/');
         return res.end()
